@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+       <context:property-placeholder location="classpath*:bundles/data-source-test.properties"/>
+       <context:component-scan base-package="com.mongotest.product" />
+
+       <!-- Product Service -->
+       <bean id="productService" class="com.mongotest.product.service.impl.ProductServiceImpl">
+              <property name="productDao" ref="productDao"/>
+       </bean>
+
+       <!-- Product Dao -->
+       <bean id="productDao" class="com.mongotest.product.dao.mongodb.ProductMongoDaoImpl">
+              <property name="productCollection" ref="productCollection"/>
+       </bean>
+
+       <!-- Mongo Client -->
+       <bean id="mongoClient" class="com.mongodb.MongoClient" >
+              <constructor-arg index="0" value="${datasource.test.mongo.host}"/>
+              <constructor-arg index="1" type="int" value="${datasource.test.mongo.port}"/>
+       </bean>
+
+       <!-- Mongo Database -->
+       <bean id="mongoDatabase" class="com.mongodb.client.MongoDatabase" factory-bean="mongoClient" factory-method="getDatabase">
+              <constructor-arg value="${datasource.test.mongo.database}"/>
+       </bean>
+
+       <!-- Mongo Product Collection -->
+       <bean id="productCollection" factory-bean="mongoDatabase" factory-method="getCollection">
+              <constructor-arg value="${datasource.test.mongo.collection.product}"/>
+       </bean>
+</beans>
