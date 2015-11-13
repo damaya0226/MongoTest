@@ -12,7 +12,7 @@ import java.util.Date;
 public class Main {
 
     public static void main(String[] args){
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("mongo-context.xml");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-context.xml");
         ProductService productService = (ProductService) applicationContext.getBean("productService");
 
         /**

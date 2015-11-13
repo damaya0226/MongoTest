@@ -6,18 +6,9 @@
 
        <context:property-placeholder location="classpath*:bundles/datasource.properties"/>
 
-       <!-- Product Service -->
-       <bean id="productService" class="com.mongotest.product.service.impl.ProductServiceImpl">
-              <property name="productDao" ref="productDao"/>
-       </bean>
-
        <!-- Product Dao -->
-       <bean id="productDao" class="com.mongotest.product.dao.mongodb.ProductMongoDaoImpl">
-              <property name="productCollection">
-                     <bean factory-bean="mongoDatabase" factory-method="getCollection">
-                            <constructor-arg value="${datasource.mongo.collection.product}"/>
-                     </bean>
-              </property>
+       <bean id="productDao" class="com.mongotest.product.dao.mongodb.impl.ProductMongoDaoImpl">
+              <property name="productCollection" ref="productCollection"/>
        </bean>
 
        <!-- Mongo Client -->
@@ -29,6 +20,11 @@
        <!-- Mongo Database -->
        <bean id="mongoDatabase" class="com.mongodb.client.MongoDatabase" factory-bean="mongoClient" factory-method="getDatabase">
               <constructor-arg value="${datasource.mongo.database}"/>
+       </bean>
+
+       <!-- Mongo Product Collection -->
+       <bean id="productCollection" factory-bean="mongoDatabase" factory-method="getCollection">
+              <constructor-arg value="${datasource.mongo.collection.product}"/>
        </bean>
 
 </beans>

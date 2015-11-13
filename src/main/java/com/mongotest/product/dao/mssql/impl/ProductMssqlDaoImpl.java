@@ -1,4 +1,4 @@
-package com.mongotest.product.dao.postgres;
+package com.mongotest.product.dao.mssql.impl;
 
 import com.mongotest.product.dao.ProductDao;
 
@@ -7,8 +7,8 @@ import java.math.BigDecimal;
 /**
  * Created by diegoamaya on 12/11/15.
  */
-public class ProductPostgresDaoImpl implements ProductDao {
-    
+public class ProductMssqlDaoImpl implements ProductDao{
+
     public int retrieveAllProducts() {
         return 0;
     }

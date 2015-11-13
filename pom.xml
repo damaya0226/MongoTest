@@ -32,6 +32,14 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!-- Spring JDBC -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+
         <!-- Mongo Java Driver -->
         <dependency>
             <groupId>org.mongodb</groupId>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+       <context:property-placeholder location="classpath*:bundles/datasource.properties"/>
+
+       <!-- Product Dao -->
+       <bean id="productDao" class="com.mongotest.product.dao.postgres.impl.ProductPostgresDaoImpl">
+              <property name="productCollection" ref="productCollection"/>
+       </bean>
+
+
+       <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+              <property name="driverClassName" value="org.postgresql.Driver"/>
+              <property name="url" value="jdbc:postgresql://${datasource.postgres.host}:${datasource.postgres.port}/${datasource.postgres.database}"/>
+              <property name="username" value="${datasource.postgres.user}"/>
+              <property name="password" value="${datasource.postgres.password}"/>
+       </bean>
+
+</beans>

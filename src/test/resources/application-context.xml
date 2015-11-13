@@ -3,5 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+       <!-- MongoDB Data Source Configuration -->
+       <import resource="datasource/mongo-test-context.xml"/>
+
+       <!-- Postgres -->
+       <!--<import resource="postgres-test-context.xml"/>-->
+
+       <!-- Product Service -->
+       <bean id="productService" class="com.mongotest.product.service.impl.ProductServiceImpl">
+              <property name="productDao" ref="productDao"/>
+       </bean>
 
 </beans>

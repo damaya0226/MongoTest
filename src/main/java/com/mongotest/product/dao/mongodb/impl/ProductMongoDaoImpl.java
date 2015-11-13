@@ -1,4 +1,4 @@
-package com.mongotest.product.dao.mongodb;
+package com.mongotest.product.dao.mongodb.impl;
 
 import com.mongodb.client.MongoCollection;
 import com.mongotest.product.dao.ProductDao;
