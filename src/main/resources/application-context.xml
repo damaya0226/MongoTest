@@ -4,10 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
        <!-- MongoDB Data Source Configuration -->
-       <import resource="datasource/mongo-context.xml"/>
+       <!--<import resource="datasource/mongo-context.xml"/>-->
 
        <!-- Postgres -->
-       <!--<import resource="postgres-context.xml"/>-->
+       <import resource="datasource/postgres-context.xml"/>
 
        <!-- Product Service -->
        <bean id="productService" class="com.mongotest.product.service.impl.ProductServiceImpl">

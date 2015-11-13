@@ -8,15 +8,23 @@
 
        <!-- Product Dao -->
        <bean id="productDao" class="com.mongotest.product.dao.postgres.impl.ProductPostgresDaoImpl">
-              <property name="productCollection" ref="productCollection"/>
+              <property name="jdbcTemplate" ref="jdbcTemplate"/>
        </bean>
 
 
+       <!-- Postgres Data Source -->
        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
               <property name="driverClassName" value="org.postgresql.Driver"/>
               <property name="url" value="jdbc:postgresql://${datasource.postgres.host}:${datasource.postgres.port}/${datasource.postgres.database}"/>
               <property name="username" value="${datasource.postgres.user}"/>
               <property name="password" value="${datasource.postgres.password}"/>
+       </bean>
+
+       <!-- JDBC Template-->
+       <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+              <constructor-arg>
+                     <ref bean="dataSource" />
+              </constructor-arg>
        </bean>
 
 </beans>
