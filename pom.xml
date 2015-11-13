@@ -12,6 +12,7 @@
     <properties>
         <spring.version>4.2.2.RELEASE</spring.version>
         <mongo.version>3.1.0</mongo.version>
+        <postgres.version>9.4-1201-jdbc41</postgres.version>
     </properties>
 
 
@@ -36,6 +37,13 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
             <version>${mongo.version}</version>
+        </dependency>
+
+        <!-- Postgres JDBC -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgres.version}</version>
         </dependency>
 
         <!-- Test NG -->
