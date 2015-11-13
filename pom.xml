@@ -13,6 +13,7 @@
         <spring.version>4.2.2.RELEASE</spring.version>
         <mongo.version>3.1.0</mongo.version>
         <postgres.version>9.4-1201-jdbc41</postgres.version>
+        <mockito.version>1.10.19</mockito.version>
     </properties>
 
 
@@ -60,6 +61,13 @@
             <artifactId>testng</artifactId>
             <version>6.1.1</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
         </dependency>
 
     </dependencies>
