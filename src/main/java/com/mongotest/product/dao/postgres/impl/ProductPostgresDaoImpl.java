@@ -2,19 +2,22 @@ package com.mongotest.product.dao.postgres.impl;
 
 import com.mongotest.product.dao.ProductDao;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import java.math.BigDecimal;
 
 /**
+ * This class represents the DAO for the product concept with
+ * Table per concrete class strategy (Herencia Por Tabla Concreta)
  * Created by diegoamaya on 12/11/15.
  */
-public class ProductPostgresDaoImpl implements ProductDao {
+public class ProductPostgresDaoImpl extends JdbcDaoSupport implements ProductDao{
 
-    private JdbcTemplate jdbcTemplate;
+    private final static String ALL_PRODUCTS_QUERY = "SELECT * FROM PRODUCTS";
+
 
     public int retrieveAllProducts() {
-        jdbcTemplate.queryForList("select * from products");
-        return 0;
+        return getJdbcTemplate().queryForList(ALL_PRODUCTS_QUERY).size();
     }
 
     public int retrieveAllProductsWithPriceLessThan(Integer value) {
@@ -25,7 +28,4 @@ public class ProductPostgresDaoImpl implements ProductDao {
         return 0;
     }
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 }

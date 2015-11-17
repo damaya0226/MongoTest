@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Integration test with MongoDB using the ProductDao
  * Created by diegoamaya on 12/11/15.
  */
 @Test
@@ -52,7 +53,6 @@ public class ProductMongoDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(productDao.retrieveAllProductsFromSpecialCategory("Beer"), 5);
         Assert.assertEquals(productDao.retrieveAllProductsFromSpecialCategory("Vehicle"), 3);
     }
-
 
     private List<Document> getBeerDocuments(){
         return Arrays.asList(
