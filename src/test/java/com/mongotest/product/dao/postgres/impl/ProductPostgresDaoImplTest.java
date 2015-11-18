@@ -1,4 +1,4 @@
-package com.mongotest.product.dao.mongodb.impl;
+package com.mongotest.product.dao.postgres.impl;
 
 import com.mongodb.client.MongoCollection;
 import com.mongotest.product.dao.ProductDao;
@@ -15,12 +15,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Integration test with MongoDB using the ProductDao
+ * Integration test with Postgres using the ProductDao
  * Created by diegoamaya on 12/11/15.
  */
 @Test
 @ContextConfiguration(locations = {"classpath:datasource/mongo-test-context.xml"})
-public class ProductMongoDaoImplTest extends AbstractTestNGSpringContextTests {
+public class ProductPostgresDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private ProductDao productDao;

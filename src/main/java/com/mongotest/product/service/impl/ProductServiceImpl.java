@@ -1,6 +1,7 @@
 package com.mongotest.product.service.impl;
 
 import com.mongotest.product.dao.ProductDao;
+import com.mongotest.product.entities.ProductCategory;
 import com.mongotest.product.service.ProductService;
 
 import java.math.BigDecimal;
@@ -21,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
         productDao.retrieveAllProductsWithPriceLessThan(value);
     }
 
-    public void retrieveAllProductsFromSpecialCategory(String category) {
+    public void retrieveAllProductsFromSpecialCategory(ProductCategory category) {
         productDao.retrieveAllProductsFromSpecialCategory(category);
     }
 

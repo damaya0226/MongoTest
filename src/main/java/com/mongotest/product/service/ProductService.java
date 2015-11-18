@@ -1,5 +1,7 @@
 package com.mongotest.product.service;
 
+import com.mongotest.product.entities.ProductCategory;
+
 import java.math.BigDecimal;
 
 /**
@@ -11,6 +13,6 @@ public interface ProductService {
 
     void retrieveAllProductsWithPriceLessThan(Integer value);
 
-    void retrieveAllProductsFromSpecialCategory(String category);
+    void retrieveAllProductsFromSpecialCategory(ProductCategory category);
 
 }

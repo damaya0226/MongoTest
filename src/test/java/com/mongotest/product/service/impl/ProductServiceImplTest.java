@@ -1,6 +1,7 @@
 package com.mongotest.product.service.impl;
 
 import com.mongotest.product.dao.ProductDao;
+import com.mongotest.product.entities.ProductCategory;
 import com.mongotest.product.service.ProductService;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeClass;
@@ -33,8 +34,8 @@ public class ProductServiceImplTest {
 
     @Test
     public void testRetrieveAllProductsFromSpecialCategory(){
-        productService.retrieveAllProductsFromSpecialCategory("Beer");
-        Mockito.verify(mockProductDao, Mockito.times(1)).retrieveAllProductsFromSpecialCategory("Beer");
+        productService.retrieveAllProductsFromSpecialCategory(ProductCategory.Beer);
+        Mockito.verify(mockProductDao, Mockito.times(1)).retrieveAllProductsFromSpecialCategory(ProductCategory.Beer);
     }
 
     @Test

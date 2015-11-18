@@ -2,9 +2,9 @@ package com.mongotest.product.dao.mongodb.impl;
 
 import com.mongodb.client.MongoCollection;
 import com.mongotest.product.dao.ProductDao;
+import com.mongotest.product.entities.ProductCategory;
 import org.bson.Document;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,29 +19,29 @@ public class ProductMongoDaoImpl implements ProductDao{
 
     public int retrieveAllProducts() {
         List<Document> products = productCollection.find().into(new ArrayList<Document>());
-        for(Document product : products){
-            System.out.println(product);
-        }
+        printProducts(products);
         return products.size();
     }
 
     public int retrieveAllProductsWithPriceLessThan(Integer value) {
         List<Document> products = productCollection.find(lt("price", value)).into(new ArrayList<Document>());
-        for(Document product : products){
-            System.out.println(product);
-        }
+        printProducts(products);
         return products.size();
     }
 
-    public int retrieveAllProductsFromSpecialCategory(String category) {
-        List<Document> products = productCollection.find(eq("category", category)).into(new ArrayList<Document>());
-        for(Document product : products){
-            System.out.println(product);
-        }
+    public int retrieveAllProductsFromSpecialCategory(ProductCategory category) {
+        List<Document> products = productCollection.find(eq("category", category.getCategory())).into(new ArrayList<Document>());
+        printProducts(products);
         return products.size();
     }
 
     public void setProductCollection(MongoCollection<Document> productCollection) {
         this.productCollection = productCollection;
+    }
+
+    private void printProducts(List<Document> products){
+        for(Document product : products){
+            System.out.println(product);
+        }
     }
 }

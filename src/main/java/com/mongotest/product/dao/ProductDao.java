@@ -1,5 +1,7 @@
 package com.mongotest.product.dao;
 
+import com.mongotest.product.entities.ProductCategory;
+
 import java.math.BigDecimal;
 
 /**
@@ -11,6 +13,6 @@ public interface ProductDao {
 
     int retrieveAllProductsWithPriceLessThan(Integer value);
 
-    int retrieveAllProductsFromSpecialCategory(String category);
+    int retrieveAllProductsFromSpecialCategory(ProductCategory category);
 
 }
