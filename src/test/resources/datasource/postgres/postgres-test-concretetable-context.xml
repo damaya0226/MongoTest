@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       profile="postgresConcreteTable-test"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+       <context:property-placeholder location="classpath*:bundles/postgres-test.properties"/>
+
+       <!-- Product Dao Concrete Table-->
+       <bean class="com.mongotest.product.dao.postgres.impl.concretetable.ProductPostgresConcreteTableDaoImpl">
+              <property name="dataSource" ref="dataSource"/>
+       </bean>
+
+
+       <!-- Postgres Data Source -->
+       <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+              <property name="driverClassName" value="org.postgresql.Driver"/>
+              <property name="url" value="jdbc:postgresql://${datasource.test.concretetable.host}:${datasource.test.concretetable.port}/${datasource.test.concretetable.database}"/>
+              <property name="username" value="${datasource.test.concretetable.user}"/>
+              <property name="password" value="${datasource.test.concretetable.password}"/>
+       </bean>
+
+       <!-- JDBC Template-->
+       <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+              <constructor-arg>
+                     <ref bean="dataSource" />
+              </constructor-arg>
+       </bean>
+
+</beans>

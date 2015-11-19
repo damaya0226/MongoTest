@@ -48,6 +48,4 @@ function insertVehicleDocuments(){
         price += 20;
         units += 1;
     }
-
-
 }

@@ -13,6 +13,14 @@ import java.util.Date;
  */
 public class Main {
 
+    static{
+        System.setProperty("spring.profiles.active", "mongodb");
+
+        //System.setProperty("spring.profiles.active", "postgresConcreteTable");
+        //System.setProperty("spring.profiles.active", "postgresSingleTable");
+
+    }
+
     public static void main(String[] args){
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-context.xml");
         ProductService productService = (ProductService) applicationContext.getBean("productService");
@@ -41,5 +49,6 @@ public class Main {
         System.out.println("Retrieve All Products From Special Category:  Vehicle");
         productService.retrieveAllProductsFromSpecialCategory(ProductCategory.Vehicle);
     }
+
 
 }

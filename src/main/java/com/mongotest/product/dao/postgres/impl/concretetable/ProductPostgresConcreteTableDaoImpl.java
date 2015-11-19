@@ -1,12 +1,9 @@
-package com.mongotest.product.dao.postgres.impl;
+package com.mongotest.product.dao.postgres.impl.concretetable;
 
 import com.mongotest.product.dao.ProductDao;
 import com.mongotest.product.entities.ProductCategory;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +12,7 @@ import java.util.Map;
  * Table per concrete class strategy (Herencia Por Tabla Concreta)
  * Created by diegoamaya on 12/11/15.
  */
-public class ProductPostgresDaoImpl extends JdbcDaoSupport implements ProductDao{
+public class ProductPostgresConcreteTableDaoImpl extends JdbcDaoSupport implements ProductDao{
 
     private final static String ALL_PRODUCTS_QUERY = "SELECT ID, PRICE, DESCRIPTION, UNITS, COLORS, ENGINE_TYPE, SOUND_TYPE, \n" +
             "null AS FLAVORS, null AS MADEIN, null AS ALCOHOL_CONTENT, BLOCK, 'Vehicle' AS CATEGORY \n" +
@@ -38,24 +35,19 @@ public class ProductPostgresDaoImpl extends JdbcDaoSupport implements ProductDao
     private final static String ALL_VEHICLES_QUERY = "SELECT * FROM PRODUCT_VEHICLE";
 
     public int retrieveAllProducts() {
-        List<Map<String, Object>> products = getJdbcTemplate().queryForList(ALL_PRODUCTS_QUERY);
+        List<Map<String, Object>> products = getJdbcTemplate().queryForList(getAllProductsQuery());
         printProducts(products);
         return products.size();
     }
 
     public int retrieveAllProductsWithPriceLessThan(Integer value) {
-        List<Map<String, Object>> products = getJdbcTemplate().queryForList(ALL_PRODUCTS_LESS_THAN_QUERY, value);
+        List<Map<String, Object>> products = getJdbcTemplate().queryForList(getAllProductsLessThanQuery(), value);
         printProducts(products);
         return products.size();
     }
 
     public int retrieveAllProductsFromSpecialCategory(ProductCategory category) {
-        List<Map<String, Object>> products = new ArrayList<Map<String, Object>>();
-        if(category.equals(ProductCategory.Beer)){
-            products = getJdbcTemplate().queryForList(ALL_BEERS_QUERY);
-        }else if(category.equals(ProductCategory.Vehicle)){
-            products = getJdbcTemplate().queryForList(ALL_VEHICLES_QUERY);
-        }
+        List<Map<String, Object>> products = getJdbcTemplate().queryForList(getAllProductsFromCategoryQuery(category));
         printProducts(products);
         return products.size();
     }
@@ -66,4 +58,21 @@ public class ProductPostgresDaoImpl extends JdbcDaoSupport implements ProductDao
         }
     }
 
+    protected String getAllProductsQuery(){
+        return ALL_PRODUCTS_QUERY;
+    }
+
+    protected String getAllProductsLessThanQuery() {
+        return ALL_PRODUCTS_LESS_THAN_QUERY;
+    }
+
+    protected String getAllProductsFromCategoryQuery(ProductCategory category) {
+        String result = "";
+        if(category.equals(ProductCategory.Beer)){
+            result = ALL_BEERS_QUERY;
+        }else if(category.equals(ProductCategory.Vehicle)){
+            result = ALL_VEHICLES_QUERY;
+        }
+        return result;
+    }
 }

@@ -19,7 +19,7 @@ import java.util.List;
  * Created by diegoamaya on 12/11/15.
  */
 @Test
-@ContextConfiguration(locations = {"classpath:datasource/mongo-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:application-context.xml"})
 public class ProductMongoDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired

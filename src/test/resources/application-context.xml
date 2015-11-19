@@ -6,8 +6,8 @@
        <!-- MongoDB Data Source Configuration -->
        <import resource="datasource/mongo-test-context.xml"/>
 
-       <!-- Postgres -->
-       <!--<import resource="postgres-test-context.xml"/>-->
+       <!-- Postgres Concrete Table-->
+       <import resource="datasource/postgres/postgres-test-concretetable-context.xml"/>
 
        <!-- Product Service -->
        <bean id="productService" class="com.mongotest.product.service.impl.ProductServiceImpl">
