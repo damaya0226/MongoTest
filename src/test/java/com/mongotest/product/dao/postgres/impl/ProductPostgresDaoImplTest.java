@@ -1,18 +1,13 @@
 package com.mongotest.product.dao.postgres.impl;
 
-import com.mongodb.client.MongoCollection;
 import com.mongotest.product.dao.ProductDao;
 import com.mongotest.product.entities.ProductCategory;
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Integration test with Postgres using the ProductDao
@@ -25,115 +20,61 @@ public class ProductPostgresDaoImplTest extends AbstractTestNGSpringContextTests
     @Autowired
     private ProductDao productDao;
 
-    @Autowired
-    private MongoCollection<Document> productCollection;
+    private final static String INSERT_VEHICLE = "INSERT INTO PRODUCT_VEHICLE(PRICE, DESCRIPTION, UNITS, COLORS, ENGINE_TYPE, SOUND_TYPE, BLOCK)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    private final static String INSERT_BEER = "INSERT INTO PRODUCT_BEER(PRICE, DESCRIPTION, UNITS, FLAVORS, MADEIN, ALCOHOL_CONTENT, BLOCK)\n" +
+            "VALUES (?, ?, ?, ?, ?, ? , ?)";
+
+    private final static String DELETE_VEHICLES = "DELETE FROM PRODUCT_VEHICLE";
+
+    private final static String DELETE_BEERS = "DELETE FROM PRODUCT_BEER";
 
     @BeforeMethod(groups = "requireData")
     public void insertProducts(){
-        productCollection.insertMany(getBeerDocuments());
-        productCollection.insertMany(getVehicleDocuments());
-    }
-    @BeforeMethod(groups = "requireDropCollection")
-    public void dropCollection(){
-        productCollection.drop();
+        Double price = 1500D;
+        int units = 1;
+        for(int i = 1 ; i <= 3 ; i++){
+            ((ProductPostgresDaoImpl) productDao).getJdbcTemplate().update(INSERT_VEHICLE, price, ("Vehicle " + i), units, "Blue, Red, Yellow", ("engine" + i), ("soundType" + i), i);
+            price += 20;
+            units += 1;
+        }
+        price = 1500D;
+        units = 2;
+
+        Double alcoholContent = 0.1D;
+        int block = 101;
+        for(int i = 1 ; i <= 5 ; i++){
+            ((ProductPostgresDaoImpl) productDao).getJdbcTemplate().update(INSERT_BEER, price, ("Beer " + i), units, "Tomato, Potato, Banana", ("BeerCountry" + i), alcoholContent, block);
+            price += 500;
+            units += 2;
+            alcoholContent += 0.01;
+            block++;
+        }
+
     }
 
-    @Test(groups = {"requireDropCollection" , "requireData"})
+    @BeforeMethod(groups = "requireDeleteAllProducts")
+    public void deleteAllProducts(){
+        ((ProductPostgresDaoImpl) productDao).getJdbcTemplate().update(DELETE_VEHICLES);
+        ((ProductPostgresDaoImpl) productDao).getJdbcTemplate().update(DELETE_BEERS);
+    }
+
+    @Test(groups = {"requireDeleteAllProducts" , "requireData"})
     public void testRetrieveAllProducts(){
         Assert.assertEquals(productDao.retrieveAllProducts(), 8);
     }
 
-    @Test(groups = {"requireDropCollection" , "requireData"})
+    @Test(groups = {"requireDeleteAllProducts" , "requireData"})
     public void testRetrieveAllProductsWithPriceLessThan(){
         Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(2501), 6);
         Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(3000), 6);
     }
 
-    @Test(groups = {"requireDropCollection" , "requireData"})
+    @Test(groups = {"requireDeleteAllProducts" , "requireData"})
     public void testRetrieveAllProductsFromSpecialCategory(){
         Assert.assertEquals(productDao.retrieveAllProductsFromSpecialCategory(ProductCategory.Beer), 5);
         Assert.assertEquals(productDao.retrieveAllProductsFromSpecialCategory(ProductCategory.Vehicle), 3);
     }
 
-    private List<Document> getBeerDocuments(){
-        return Arrays.asList(
-                new Document("category", "Beer")
-                        .append("price", 1500)
-                        .append("description", "German Beer")
-                        .append("units", 10)
-                        .append("flavors", Arrays.asList("Tomato", "Potato", "Bacon"))
-                        .append("madeIn", "Germany")
-                        .append("alcoholContent", 0.1)
-                        .append("block", 111),
-
-                new Document("category", "Beer")
-                        .append("price", 2000)
-                        .append("description", "Brazilian Beer")
-                        .append("units", 20)
-                        .append("flavors", Arrays.asList("Farofa", "Jurupinga", "Arroz"))
-                        .append("madeIn", "Brazil")
-                        .append("alcoholContent", 0.2)
-                        .append("block", 222),
-
-                new Document("category", "Beer")
-                        .append("price", 2500)
-                        .append("description", "Colombian Beer")
-                        .append("units", 30)
-                        .append("flavors", Arrays.asList("Mazamorra", "Chicha", "Arepa"))
-                        .append("madeIn", "Colombia")
-                        .append("alcoholContent", 0.3)
-                        .append("block", 333),
-
-                new Document("category", "Beer")
-                        .append("price", 3000)
-                        .append("description", "Argentinian Beer")
-                        .append("units", 40)
-                        .append("flavors", Arrays.asList("Mate", "Pasto", "Carne"))
-                        .append("madeIn", "Argentina")
-                        .append("alcoholContent", 0.4)
-                        .append("block", 444),
-
-                new Document("category", "Beer")
-                        .append("price", 3500)
-                        .append("description", "Ast Beer")
-                        .append("units", 50)
-                        .append("flavors", Arrays.asList("Tomato", "Potato", "Bacon"))
-                        .append("madeIn", "Holand")
-                        .append("alcoholContent", 0.5)
-                        .append("block", 555)
-
-        );
-    }
-
-    private List<Document> getVehicleDocuments(){
-        return Arrays.asList(
-                new Document("category", "Vehicle")
-                        .append("price", 1500)
-                        .append("description", "German Vehicle")
-                        .append("units", 10)
-                        .append("colors", Arrays.asList("Blue", "Red", "Yellow"))
-                        .append("engineType", "XXX")
-                        .append("soundType", "XXX")
-                        .append("block", 111),
-
-                new Document("category", "Vehicle")
-                        .append("price", 2000)
-                        .append("description", "Brazilian Vehicle")
-                        .append("units", 20)
-                        .append("colors", Arrays.asList("Green", "Red", "Black"))
-                        .append("engineType", "YYY")
-                        .append("soundType", "YYY")
-                        .append("block", 222),
-
-                new Document("category", "Vehicle")
-                        .append("price", 2500)
-                        .append("description", "Colombian Vehicle")
-                        .append("units", 30)
-                        .append("colors", Arrays.asList("Green", "Yellow", "Red"))
-                        .append("engineType", "ZZZ")
-                        .append("soundType", "ZZZ")
-                        .append("block", 333)
-
-        );
-    }
 }

@@ -57,7 +57,7 @@ public class ProductPostgresDaoImpl extends JdbcDaoSupport implements ProductDao
             products = getJdbcTemplate().queryForList(ALL_VEHICLES_QUERY);
         }
         printProducts(products);
-        return 0;
+        return products.size();
     }
 
     private void printProducts(List<Map<String, Object>> products){
