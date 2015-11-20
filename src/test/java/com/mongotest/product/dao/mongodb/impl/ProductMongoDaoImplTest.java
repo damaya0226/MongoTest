@@ -5,6 +5,7 @@ import com.mongotest.product.dao.ProductDao;
 import com.mongotest.product.entities.ProductCategory;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
@@ -19,7 +20,8 @@ import java.util.List;
  * Created by diegoamaya on 12/11/15.
  */
 @Test
-@ContextConfiguration(locations = {"classpath:application-context.xml"})
+@ActiveProfiles(profiles = "mongodb-test")
+@ContextConfiguration(locations = {"classpath:application-test-context.xml"})
 public class ProductMongoDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired

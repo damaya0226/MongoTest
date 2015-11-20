@@ -5,8 +5,6 @@ import com.mongotest.product.service.ProductService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.Date;
-
 /**
  * Created by diegoamaya on 12/11/15.
  * Please enjoy this application.
@@ -14,11 +12,14 @@ import java.util.Date;
 public class Main {
 
     static{
+        //Mongo
         System.setProperty("spring.profiles.active", "mongodb");
 
+        // Postgres
         //System.setProperty("spring.profiles.active", "postgresConcreteTable");
         //System.setProperty("spring.profiles.active", "postgresSingleTable");
 
+        //...
     }
 
     public static void main(String[] args){

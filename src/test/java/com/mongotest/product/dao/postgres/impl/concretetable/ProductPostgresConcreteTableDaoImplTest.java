@@ -1,10 +1,11 @@
 package com.mongotest.product.dao.postgres.impl.concretetable;
 
-import com.mongotest.product.dao.DaoTest;
 import com.mongotest.product.dao.ProductDao;
 import com.mongotest.product.entities.ProductCategory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,8 +15,9 @@ import org.testng.annotations.Test;
  * Created by diegoamaya on 12/11/15.
  */
 @Test
-@ContextConfiguration(locations = {"classpath:application-context.xml"})
-public class ProductPostgresConcreteTableDaoImplTest extends DaoTest {
+@ActiveProfiles(profiles = "postgresConcreteTable-test")
+@ContextConfiguration(locations = {"classpath:application-test-context.xml"})
+public class ProductPostgresConcreteTableDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private ProductDao productDao;
