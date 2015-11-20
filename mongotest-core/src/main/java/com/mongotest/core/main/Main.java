@@ -1,4 +1,4 @@
-package com.mongotest.main;
+package com.mongotest.core.main;
 
 import com.mongotest.product.entities.ProductCategory;
 import com.mongotest.product.service.ProductService;
