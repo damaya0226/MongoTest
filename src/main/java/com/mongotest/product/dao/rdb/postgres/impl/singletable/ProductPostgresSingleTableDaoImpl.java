@@ -1,12 +1,12 @@
-package com.mongotest.product.dao.postgres.impl.singletable;
+package com.mongotest.product.dao.rdb.postgres.impl.singletable;
 
-import com.mongotest.product.dao.postgres.impl.concretetable.ProductPostgresConcreteTableDaoImpl;
+import com.mongotest.product.dao.rdb.ProductRelationalDao;
 import com.mongotest.product.entities.ProductCategory;
 
 /**
  * Created by diegoamaya on 18/11/15.
  */
-public class ProductPostgresSingleTableDaoImpl extends ProductPostgresConcreteTableDaoImpl {
+public class ProductPostgresSingleTableDaoImpl extends ProductRelationalDao {
 
     private final static String ALL_PRODUCTS_QUERY = "SELECT * FROM PRODUCT";
 

@@ -16,6 +16,9 @@
        <!-- Postgres Single Table-->
        <import resource="datasource/postgres/postgres-test-singletable-context.xml"/>
 
+       <!-- Postgres Multi Table-->
+       <import resource="datasource/postgres/postgres-test-multitable-context.xml"/>
+
        <!-- Product Service -->
        <bean id="productService" class="com.mongotest.product.service.impl.ProductServiceImpl">
               <property name="productDao" ref="productDao"/>

@@ -1,18 +1,14 @@
-package com.mongotest.product.dao.postgres.impl.concretetable;
+package com.mongotest.product.dao.rdb.postgres.impl.concretetable;
 
-import com.mongotest.product.dao.ProductDao;
+import com.mongotest.product.dao.rdb.ProductRelationalDao;
 import com.mongotest.product.entities.ProductCategory;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * This class represents the DAO for the product concept with
  * Table per concrete class strategy (Herencia Por Tabla Concreta)
  * Created by diegoamaya on 12/11/15.
  */
-public class ProductPostgresConcreteTableDaoImpl extends JdbcDaoSupport implements ProductDao{
+public class ProductPostgresConcreteTableDaoImpl extends ProductRelationalDao {
 
     private final static String ALL_PRODUCTS_QUERY = "SELECT ID, PRICE, DESCRIPTION, UNITS, COLORS, ENGINE_TYPE, SOUND_TYPE, \n" +
             "null AS FLAVORS, null AS MADEIN, null AS ALCOHOL_CONTENT, BLOCK, 'Vehicle' AS CATEGORY \n" +
@@ -34,29 +30,7 @@ public class ProductPostgresConcreteTableDaoImpl extends JdbcDaoSupport implemen
 
     private final static String ALL_VEHICLES_QUERY = "SELECT * FROM PRODUCT_VEHICLE";
 
-    public int retrieveAllProducts() {
-        List<Map<String, Object>> products = getJdbcTemplate().queryForList(getAllProductsQuery());
-        printProducts(products);
-        return products.size();
-    }
 
-    public int retrieveAllProductsWithPriceLessThan(Integer value) {
-        List<Map<String, Object>> products = getJdbcTemplate().queryForList(getAllProductsLessThanQuery(), value);
-        printProducts(products);
-        return products.size();
-    }
-
-    public int retrieveAllProductsFromSpecialCategory(ProductCategory category) {
-        List<Map<String, Object>> products = getJdbcTemplate().queryForList(getAllProductsFromCategoryQuery(category));
-        printProducts(products);
-        return products.size();
-    }
-
-    private void printProducts(List<Map<String, Object>> products){
-        for(Map<String, Object> product : products){
-            System.out.println(product);
-        }
-    }
 
     protected String getAllProductsQuery(){
         return ALL_PRODUCTS_QUERY;

@@ -16,8 +16,9 @@ public class Main {
         //System.setProperty("spring.profiles.active", "mongodb");
 
         // Postgres
-        //System.setProperty("spring.profiles.active", "postgresConcreteTable");
-        System.setProperty("spring.profiles.active", "postgresSingleTable");
+        //System.setProperty("spring.profiles.active", "postgres-concrete-table");
+        //System.setProperty("spring.profiles.active", "postgres-single-table");
+        System.setProperty("spring.profiles.active", "postgres-multi-table");
 
         //...
     }

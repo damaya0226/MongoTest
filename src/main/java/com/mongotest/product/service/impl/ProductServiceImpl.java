@@ -4,8 +4,6 @@ import com.mongotest.product.dao.ProductDao;
 import com.mongotest.product.entities.ProductCategory;
 import com.mongotest.product.service.ProductService;
 
-import java.math.BigDecimal;
-
 /**
  * Created by diegoamaya on 12/11/15.
  */

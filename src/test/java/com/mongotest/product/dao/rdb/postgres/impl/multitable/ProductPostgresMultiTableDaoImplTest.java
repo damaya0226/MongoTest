@@ -1,6 +1,7 @@
-package com.mongotest.product.dao.postgres.impl.concretetable;
+package com.mongotest.product.dao.rdb.postgres.impl.multitable;
 
 import com.mongotest.product.dao.ProductDao;
+import com.mongotest.product.dao.rdb.postgres.impl.concretetable.ProductPostgresConcreteTableDaoImpl;
 import com.mongotest.product.entities.ProductCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -15,18 +16,23 @@ import org.testng.annotations.Test;
  * Created by diegoamaya on 12/11/15.
  */
 @Test
-@ActiveProfiles(profiles = "postgresConcreteTable-test")
+@ActiveProfiles(profiles = "postgres-multi-table-test")
 @ContextConfiguration(locations = {"classpath:application-test-context.xml"})
-public class ProductPostgresConcreteTableDaoImplTest extends AbstractTestNGSpringContextTests {
+public class ProductPostgresMultiTableDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private ProductDao productDao;
 
-    private final static String INSERT_VEHICLE = "INSERT INTO PRODUCT_VEHICLE(PRICE, DESCRIPTION, UNITS, COLORS, ENGINE_TYPE, SOUND_TYPE, BLOCK)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private final static String INSERT = "INSERT INTO PRODUCT(ID, PRICE, DESCRIPTION, UNITS, CATEGORY, BLOCK)\n" +
+            "VALUES(?, ?, ?, ?,?, ?)";
 
-    private final static String INSERT_BEER = "INSERT INTO PRODUCT_BEER(PRICE, DESCRIPTION, UNITS, FLAVORS, MADEIN, ALCOHOL_CONTENT, BLOCK)\n" +
-            "VALUES (?, ?, ?, ?, ?, ? , ?)";
+    private final static String INSERT_VEHICLE = "INSERT INTO PRODUCT_VEHICLE(ID, COLORS, ENGINE_TYPE, SOUND_TYPE)\n" +
+            "VALUES (?, ?, ?, ?)";
+
+    private final static String INSERT_BEER = "INSERT INTO PRODUCT_BEER(ID, FLAVORS, MADEIN, ALCOHOL_CONTENT)\n" +
+            "VALUES (?, ?, ?, ?);";
+
+    private final static String DELETE = "DELETE FROM PRODUCT";
 
     private final static String DELETE_VEHICLES = "DELETE FROM PRODUCT_VEHICLE";
 
@@ -36,8 +42,10 @@ public class ProductPostgresConcreteTableDaoImplTest extends AbstractTestNGSprin
     public void insertProducts(){
         Double price = 1500D;
         int units = 1;
-        for(int i = 1 ; i <= 3 ; i++){
-            ((ProductPostgresConcreteTableDaoImpl) productDao).getJdbcTemplate().update(INSERT_VEHICLE, price, ("Vehicle " + i), units, "Blue, Red, Yellow", ("engine" + i), ("soundType" + i), i);
+        int i = 1;
+        for( ; i <= 3 ; i++){
+            ((ProductPostgresMultipleTableDaoImpl) productDao).getJdbcTemplate().update(INSERT, i, price, ("Vehicle " + i), units, ProductCategory.Vehicle.getCategory(), i);
+            ((ProductPostgresMultipleTableDaoImpl) productDao).getJdbcTemplate().update(INSERT_VEHICLE, i, "Blue, Red, Yellow", ("engine" + i), ("soundType" + i));
             price += 20;
             units += 1;
         }
@@ -46,20 +54,23 @@ public class ProductPostgresConcreteTableDaoImplTest extends AbstractTestNGSprin
 
         Double alcoholContent = 0.1D;
         int block = 101;
-        for(int i = 1 ; i <= 5 ; i++){
-            ((ProductPostgresConcreteTableDaoImpl) productDao).getJdbcTemplate().update(INSERT_BEER, price, ("Beer " + i), units, "Tomato, Potato, Banana", ("BeerCountry" + i), alcoholContent, block);
+        for(int j = 1 ; j <= 5 ; j++){
+            ((ProductPostgresMultipleTableDaoImpl) productDao).getJdbcTemplate().update(INSERT, i, price, ("Beer " + i), units, ProductCategory.Beer.getCategory(),block);
+            ((ProductPostgresMultipleTableDaoImpl) productDao).getJdbcTemplate().update(INSERT_BEER, i, "Tomato, Potato, Banana", ("BeerCountry" + i), alcoholContent);
             price += 500;
             units += 2;
             alcoholContent += 0.01;
             block++;
+            i++;
         }
 
     }
 
     @BeforeMethod(groups = "requireDeleteAllProducts")
     public void deleteAllProducts(){
-        ((ProductPostgresConcreteTableDaoImpl) productDao).getJdbcTemplate().update(DELETE_VEHICLES);
-        ((ProductPostgresConcreteTableDaoImpl) productDao).getJdbcTemplate().update(DELETE_BEERS);
+        ((ProductPostgresMultipleTableDaoImpl) productDao).getJdbcTemplate().update(DELETE_VEHICLES);
+        ((ProductPostgresMultipleTableDaoImpl) productDao).getJdbcTemplate().update(DELETE_BEERS);
+        ((ProductPostgresMultipleTableDaoImpl) productDao).getJdbcTemplate().update(DELETE);
     }
 
     @Test(groups = {"requireDeleteAllProducts" , "requireData"})
