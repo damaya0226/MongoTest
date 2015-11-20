@@ -9,7 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mongotest-populator</artifactId>
+    <artifactId>populator</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.mongotest</groupId>
+            <artifactId>core</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+    </dependencies>
 
 </project>
