@@ -13,6 +13,9 @@
        <!-- Postgres Concrete Table-->
        <import resource="datasource/postgres/postgres-test-concretetable-context.xml"/>
 
+       <!-- Postgres Single Table-->
+       <import resource="datasource/postgres/postgres-test-singletable-context.xml"/>
+
        <!-- Product Service -->
        <bean id="productService" class="com.mongotest.product.service.impl.ProductServiceImpl">
               <property name="productDao" ref="productDao"/>

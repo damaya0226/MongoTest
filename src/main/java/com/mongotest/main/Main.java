@@ -13,11 +13,11 @@ public class Main {
 
     static{
         //Mongo
-        System.setProperty("spring.profiles.active", "mongodb");
+        //System.setProperty("spring.profiles.active", "mongodb");
 
         // Postgres
         //System.setProperty("spring.profiles.active", "postgresConcreteTable");
-        //System.setProperty("spring.profiles.active", "postgresSingleTable");
+        System.setProperty("spring.profiles.active", "postgresSingleTable");
 
         //...
     }

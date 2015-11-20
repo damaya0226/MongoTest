@@ -8,10 +8,9 @@
        <context:property-placeholder location="classpath*:bundles/postgres-test.properties"/>
 
        <!-- Product Dao Concrete Table-->
-       <bean class="com.mongotest.product.dao.postgres.impl.singletable.ProductPostgresSingleTableDaoImpl">
+       <bean id="productDao" class="com.mongotest.product.dao.postgres.impl.singletable.ProductPostgresSingleTableDaoImpl">
               <property name="dataSource" ref="dataSource"/>
        </bean>
-
 
        <!-- Postgres Data Source -->
        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
