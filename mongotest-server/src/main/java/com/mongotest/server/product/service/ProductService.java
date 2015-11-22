@@ -1,5 +1,6 @@
 package com.mongotest.server.product.service;
 
+import com.mongotest.commons.product.entities.Product;
 import com.mongotest.commons.product.entities.ProductCategory;
 
 /**
@@ -12,5 +13,7 @@ public interface ProductService {
     void retrieveAllProductsWithPriceLessThan(Double value);
 
     void retrieveAllProductsFromSpecialCategory(ProductCategory category);
+
+    void insertProduct(Product product);
 
 }

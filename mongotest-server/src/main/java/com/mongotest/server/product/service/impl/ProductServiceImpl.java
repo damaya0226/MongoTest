@@ -1,5 +1,6 @@
 package com.mongotest.server.product.service.impl;
 
+import com.mongotest.commons.product.entities.Product;
 import com.mongotest.server.product.dao.ProductDao;
 import com.mongotest.commons.product.entities.ProductCategory;
 import com.mongotest.server.product.service.ProductService;
@@ -22,6 +23,10 @@ public class ProductServiceImpl implements ProductService {
 
     public void retrieveAllProductsFromSpecialCategory(ProductCategory category) {
         productDao.retrieveAllProductsFromSpecialCategory(category);
+    }
+
+    public void insertProduct(Product product){
+        productDao.insertProduct(product);
     }
 
     public void setProductDao(ProductDao productDao) {

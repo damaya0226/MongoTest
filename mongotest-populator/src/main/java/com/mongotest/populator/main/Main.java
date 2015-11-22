@@ -1,5 +1,6 @@
 package com.mongotest.populator.main;
 
+import com.mongotest.populator.product.ProductPopulator;
 import com.mongotest.server.product.service.ProductService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -11,19 +12,19 @@ public class Main {
 
     static{
         //Mongo
-        //System.setProperty("spring.profiles.active", "mongodb");
+        System.setProperty("spring.profiles.active", "mongodb");
 
         // Postgres
         //System.setProperty("spring.profiles.active", "postgres-concrete-table");
         //System.setProperty("spring.profiles.active", "postgres-single-table");
-        System.setProperty("spring.profiles.active", "postgres-multi-table");
+        //System.setProperty("spring.profiles.active", "postgres-multi-table");
 
         //...
     }
 
     public static void main(String[] args){
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-context.xml");
-        ProductService productService = (ProductService) applicationContext.getBean("productService");
-
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-populator-context.xml");
+        ProductPopulator productPopulator = (ProductPopulator) applicationContext.getBean("productPopulator");
+        productPopulator.populate();
     }
 }
