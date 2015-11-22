@@ -1,5 +1,8 @@
 package com.mongotest.server.product.dao.rdb.postgres.impl.concretetable;
 
+import com.mongotest.commons.product.entities.Product;
+import com.mongotest.commons.product.entities.ProductBeer;
+import com.mongotest.commons.product.entities.ProductVehicle;
 import com.mongotest.server.product.dao.ProductDao;
 import com.mongotest.commons.product.entities.ProductCategory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,8 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
 
 /**
  * Integration test with Postgres using the ProductDao
@@ -22,12 +27,6 @@ public class ProductPostgresConcreteTableDaoImplTest extends AbstractTestNGSprin
     @Autowired
     private ProductDao productDao;
 
-    private final static String INSERT_VEHICLE = "INSERT INTO PRODUCT_VEHICLE(PRICE, DESCRIPTION, UNITS, COLORS, ENGINE_TYPE, SOUND_TYPE, BLOCK)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-    private final static String INSERT_BEER = "INSERT INTO PRODUCT_BEER(PRICE, DESCRIPTION, UNITS, FLAVORS, MADEIN, ALCOHOL_CONTENT, BLOCK)\n" +
-            "VALUES (?, ?, ?, ?, ?, ? , ?)";
-
     private final static String DELETE_VEHICLES = "DELETE FROM PRODUCT_VEHICLE";
 
     private final static String DELETE_BEERS = "DELETE FROM PRODUCT_BEER";
@@ -36,8 +35,16 @@ public class ProductPostgresConcreteTableDaoImplTest extends AbstractTestNGSprin
     public void insertProducts(){
         Double price = 1500D;
         int units = 1;
+        Product productVehicle = new ProductVehicle();
         for(int i = 1 ; i <= 3 ; i++){
-            ((ProductPostgresConcreteTableDaoImpl) productDao).getJdbcTemplate().update(INSERT_VEHICLE, price, ("Vehicle " + i), units, "Blue, Red, Yellow", ("engine" + i), ("soundType" + i), i);
+            productVehicle.setPrice(price);
+            productVehicle.setDescription(ProductCategory.Vehicle.getCategory() + i);
+            productVehicle.setUnits(units);
+            ((ProductVehicle) productVehicle).setColors(Arrays.asList("Blue", "Red", "Yellow"));
+            ((ProductVehicle) productVehicle).setEngineType("engine" + i);
+            ((ProductVehicle) productVehicle).setSoundType("soundType" + i);
+            productVehicle.setBlock(i);
+            productDao.insertProduct(productVehicle);
             price += 20;
             units += 1;
         }
@@ -46,8 +53,16 @@ public class ProductPostgresConcreteTableDaoImplTest extends AbstractTestNGSprin
 
         Double alcoholContent = 0.1D;
         int block = 101;
+        Product productBeer = new ProductBeer();
         for(int i = 1 ; i <= 5 ; i++){
-            ((ProductPostgresConcreteTableDaoImpl) productDao).getJdbcTemplate().update(INSERT_BEER, price, ("Beer " + i), units, "Tomato, Potato, Banana", ("BeerCountry" + i), alcoholContent, block);
+            productBeer.setPrice(price);
+            productBeer.setDescription(ProductCategory.Beer.getCategory() + i);
+            productBeer.setUnits(units);
+            ((ProductBeer) productBeer).setFlavors(Arrays.asList("Tomato", "Potato", "Banana"));
+            ((ProductBeer) productBeer).setMadeIn("BeerCountry" + i);
+            ((ProductBeer) productBeer).setAlcoholContent(alcoholContent);
+            productBeer.setBlock(block);
+            productDao.insertProduct(productBeer);
             price += 500;
             units += 2;
             alcoholContent += 0.01;
@@ -69,8 +84,8 @@ public class ProductPostgresConcreteTableDaoImplTest extends AbstractTestNGSprin
 
     @Test(groups = {"requireDeleteAllProducts" , "requireData"})
     public void testRetrieveAllProductsWithPriceLessThan(){
-        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(2501), 6);
-        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(3000), 6);
+        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(2501D), 6);
+        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(3000D), 6);
     }
 
     @Test(groups = {"requireDeleteAllProducts" , "requireData"})

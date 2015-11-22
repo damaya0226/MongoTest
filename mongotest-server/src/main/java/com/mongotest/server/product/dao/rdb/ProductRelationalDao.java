@@ -18,7 +18,7 @@ public abstract class ProductRelationalDao extends JdbcDaoSupport implements Pro
         return products.size();
     }
 
-    public int retrieveAllProductsWithPriceLessThan(Integer value) {
+    public int retrieveAllProductsWithPriceLessThan(Double value) {
         List<Map<String, Object>> products = getJdbcTemplate().queryForList(getAllProductsLessThanQuery(), value);
         printProducts(products);
         return products.size();

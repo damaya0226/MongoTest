@@ -11,6 +11,8 @@ public class Product {
     private Integer units;
     private Integer block;
 
+    public Product() {}
+
     public Product(Long id, Double price, String description, Integer units, Integer block){
         this.id = id;
         this.price = price;

@@ -26,7 +26,7 @@ public class ProductMongoDaoImpl implements ProductDao{
         return products.size();
     }
 
-    public int retrieveAllProductsWithPriceLessThan(Integer value) {
+    public int retrieveAllProductsWithPriceLessThan(Double value) {
         List<Document> products = productCollection.find(lt("price", value)).into(new ArrayList<Document>());
         printProducts(products);
         return products.size();
@@ -59,12 +59,12 @@ public class ProductMongoDaoImpl implements ProductDao{
               .append("units", product.getUnits())
               .append("block", product.getBlock());
         if(product instanceof ProductVehicle){
-            result = new Document("category", ProductCategory.Vehicle.getCategory())
+            result.append("category", ProductCategory.Vehicle.getCategory())
                     .append("colors", ((ProductVehicle) product).getColors())
                     .append("engineType", ((ProductVehicle) product).getEngineType())
                     .append("soundType", ((ProductVehicle) product).getSoundType());
         }else if(product instanceof ProductBeer){
-            result = new Document("category", ProductCategory.Beer.getCategory())
+            result.append("category", ProductCategory.Beer.getCategory())
                     .append("flavors", ((ProductBeer) product).getFlavors())
                     .append("madeIn", ((ProductBeer) product).getMadeIn())
                     .append("alcoholContent", ((ProductBeer) product).getAlcoholContent());

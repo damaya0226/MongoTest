@@ -11,7 +11,7 @@ public interface ProductDao{
 
     int retrieveAllProducts();
 
-    int retrieveAllProductsWithPriceLessThan(Integer value);
+    int retrieveAllProductsWithPriceLessThan(Double value);
 
     int retrieveAllProductsFromSpecialCategory(ProductCategory category);
 

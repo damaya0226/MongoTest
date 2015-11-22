@@ -54,8 +54,8 @@ public class ProductMongoDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(groups = {"requireDropCollection" , "requireData"})
     public void testRetrieveAllProductsWithPriceLessThan(){
-        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(2501), 6);
-        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(3000), 6);
+        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(2501D), 6);
+        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(3000D), 6);
     }
 
     @Test(groups = {"requireDropCollection" , "requireData"})

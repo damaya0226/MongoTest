@@ -40,7 +40,7 @@ public class ProductServiceImplTest {
 
     @Test
     public void testRetrieveAllProductsWithPriceLessThan(){
-        productService.retrieveAllProductsWithPriceLessThan(1200);
-        Mockito.verify(mockProductDao, Mockito.times(1)).retrieveAllProductsWithPriceLessThan(1200);
+        productService.retrieveAllProductsWithPriceLessThan(1200D);
+        Mockito.verify(mockProductDao, Mockito.times(1)).retrieveAllProductsWithPriceLessThan(1200D);
     }
 }

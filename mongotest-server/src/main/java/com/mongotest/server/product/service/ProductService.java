@@ -9,7 +9,7 @@ public interface ProductService {
 
     void retrieveAllProducts();
 
-    void retrieveAllProductsWithPriceLessThan(Integer value);
+    void retrieveAllProductsWithPriceLessThan(Double value);
 
     void retrieveAllProductsFromSpecialCategory(ProductCategory category);
 

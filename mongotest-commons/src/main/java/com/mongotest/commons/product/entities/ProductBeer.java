@@ -18,6 +18,10 @@ public class ProductBeer extends Product {
         this.alcoholContent = alcoholContent;
     }
 
+    public ProductBeer() {
+        super();
+    }
+
     public ProductBeer(Double price, String description, Integer units, Integer block, List<String> flavors, String madeIn, Double alcoholContent) {
         super(price, description, units, block);
         this.flavors = flavors;

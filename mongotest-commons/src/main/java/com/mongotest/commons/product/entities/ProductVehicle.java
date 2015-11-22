@@ -25,6 +25,10 @@ public class ProductVehicle extends Product{
         this.soundType = soundType;
     }
 
+    public ProductVehicle() {
+        super();
+    }
+
     public List<String> getColors() {
         return colors;
     }

@@ -37,7 +37,7 @@ public class Main {
          * Retrieve All Products With Price Less Than 5000
          */
         System.out.println("Retrieve All Products With Price Less Than 5000");
-        productService.retrieveAllProductsWithPriceLessThan(5000);
+        productService.retrieveAllProductsWithPriceLessThan(5000D);
 
         /**
          * Retrieve All Products From Special Category:  Beer

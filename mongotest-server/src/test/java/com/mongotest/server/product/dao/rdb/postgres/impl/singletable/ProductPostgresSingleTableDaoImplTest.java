@@ -1,5 +1,8 @@
 package com.mongotest.server.product.dao.rdb.postgres.impl.singletable;
 
+import com.mongotest.commons.product.entities.Product;
+import com.mongotest.commons.product.entities.ProductBeer;
+import com.mongotest.commons.product.entities.ProductVehicle;
 import com.mongotest.server.product.dao.ProductDao;
 import com.mongotest.server.product.dao.rdb.postgres.impl.concretetable.ProductPostgresConcreteTableDaoImpl;
 import com.mongotest.commons.product.entities.ProductCategory;
@@ -10,6 +13,8 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
 
 /**
  * Integration test with Postgres using the ProductDao
@@ -23,12 +28,6 @@ public class ProductPostgresSingleTableDaoImplTest extends AbstractTestNGSpringC
     @Autowired
     private ProductDao productDao;
 
-    private final static String INSERT_VEHICLE = "INSERT INTO PRODUCT(CATEGORY, PRICE, DESCRIPTION, UNITS, COLORS, ENGINE_TYPE, SOUND_TYPE, FLAVORS, MADEIN, ALCOHOL_CONTENT, BLOCK)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, null, null, null, ?)";
-
-    private final static String INSERT_BEER = "INSERT INTO PRODUCT(CATEGORY, PRICE, DESCRIPTION, UNITS, COLORS, ENGINE_TYPE, SOUND_TYPE, FLAVORS, MADEIN, ALCOHOL_CONTENT, BLOCK)\n" +
-            "VALUES (?, ?, ?, ?, null, null, null, ?, ?, ?, ?)";
-
     private final static String DELETE_VEHICLES = "DELETE FROM PRODUCT WHERE CATEGORY = '" + ProductCategory.Vehicle.getCategory() + "'";
 
     private final static String DELETE_BEERS = "DELETE FROM PRODUCT WHERE CATEGORY = '" + ProductCategory.Beer.getCategory() + "'";
@@ -37,8 +36,17 @@ public class ProductPostgresSingleTableDaoImplTest extends AbstractTestNGSpringC
     public void insertProducts(){
         Double price = 1500D;
         int units = 1;
+        Product productVehicle = new ProductVehicle();
         for(int i = 1 ; i <= 3 ; i++){
-            ((ProductPostgresConcreteTableDaoImpl) productDao).getJdbcTemplate().update(INSERT_VEHICLE, ProductCategory.Vehicle.getCategory(), price, ("Vehicle " + i), units, "Blue, Red, Yellow", ("engine" + i), ("soundType" + i), i);
+            productVehicle.setId((long) i);
+            productVehicle.setPrice(price);
+            productVehicle.setDescription(ProductCategory.Vehicle.getCategory() + i);
+            productVehicle.setUnits(units);
+            productVehicle.setBlock(i);
+            ((ProductVehicle)productVehicle).setColors(Arrays.asList("Blue", "Red", "Yellow"));
+            ((ProductVehicle)productVehicle).setEngineType("engine" + i);
+            ((ProductVehicle)productVehicle).setSoundType("soundType" + i);
+            productDao.insertProduct(productVehicle);
             price += 20;
             units += 1;
         }
@@ -47,8 +55,17 @@ public class ProductPostgresSingleTableDaoImplTest extends AbstractTestNGSpringC
 
         Double alcoholContent = 0.1D;
         int block = 101;
+        Product productBeer = new ProductBeer();
         for(int i = 1 ; i <= 5 ; i++){
-            ((ProductPostgresConcreteTableDaoImpl) productDao).getJdbcTemplate().update(INSERT_BEER, ProductCategory.Beer.getCategory(), price, ("Beer " + i), units, "Tomato, Potato, Banana", ("BeerCountry" + i), alcoholContent, block);
+            productBeer.setId((long) i);
+            productBeer.setPrice(price);
+            productBeer.setDescription(ProductCategory.Beer.getCategory() + i);
+            productBeer.setUnits(units);
+            productBeer.setBlock(block);
+            ((ProductBeer)productBeer).setFlavors(Arrays.asList("Tomato", "Potato", "Banana"));
+            ((ProductBeer)productBeer).setMadeIn("BeerCountry" + i);
+            ((ProductBeer)productBeer).setAlcoholContent(alcoholContent);
+            productDao.insertProduct(productBeer);
             price += 500;
             units += 2;
             alcoholContent += 0.01;
@@ -59,8 +76,8 @@ public class ProductPostgresSingleTableDaoImplTest extends AbstractTestNGSpringC
 
     @BeforeMethod(groups = "requireDeleteAllProducts")
     public void deleteAllProducts(){
-        ((ProductPostgresConcreteTableDaoImpl) productDao).getJdbcTemplate().update(DELETE_VEHICLES);
-        ((ProductPostgresConcreteTableDaoImpl) productDao).getJdbcTemplate().update(DELETE_BEERS);
+        ((ProductPostgresSingleTableDaoImpl) productDao).getJdbcTemplate().update(DELETE_VEHICLES);
+        ((ProductPostgresSingleTableDaoImpl) productDao).getJdbcTemplate().update(DELETE_BEERS);
     }
 
     @Test(groups = {"requireDeleteAllProducts" , "requireData"})
@@ -70,8 +87,8 @@ public class ProductPostgresSingleTableDaoImplTest extends AbstractTestNGSpringC
 
     @Test(groups = {"requireDeleteAllProducts" , "requireData"})
     public void testRetrieveAllProductsWithPriceLessThan(){
-        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(2501), 6);
-        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(3000), 6);
+        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(2501D), 6);
+        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(3000D), 6);
     }
 
     @Test(groups = {"requireDeleteAllProducts" , "requireData"})

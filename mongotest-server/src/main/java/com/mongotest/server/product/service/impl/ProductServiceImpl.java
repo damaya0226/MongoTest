@@ -16,7 +16,7 @@ public class ProductServiceImpl implements ProductService {
         productDao.retrieveAllProducts();
     }
 
-    public void retrieveAllProductsWithPriceLessThan(Integer value) {
+    public void retrieveAllProductsWithPriceLessThan(Double value) {
         productDao.retrieveAllProductsWithPriceLessThan(value);
     }
 

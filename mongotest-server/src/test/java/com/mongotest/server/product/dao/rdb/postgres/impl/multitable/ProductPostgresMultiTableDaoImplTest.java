@@ -1,5 +1,8 @@
 package com.mongotest.server.product.dao.rdb.postgres.impl.multitable;
 
+import com.mongotest.commons.product.entities.Product;
+import com.mongotest.commons.product.entities.ProductBeer;
+import com.mongotest.commons.product.entities.ProductVehicle;
 import com.mongotest.server.product.dao.ProductDao;
 import com.mongotest.commons.product.entities.ProductCategory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,8 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
 
 /**
  * Integration test with Postgres using the ProductDao
@@ -22,15 +27,6 @@ public class ProductPostgresMultiTableDaoImplTest extends AbstractTestNGSpringCo
     @Autowired
     private ProductDao productDao;
 
-    private final static String INSERT = "INSERT INTO PRODUCT(ID, PRICE, DESCRIPTION, UNITS, CATEGORY, BLOCK)\n" +
-            "VALUES(?, ?, ?, ?,?, ?)";
-
-    private final static String INSERT_VEHICLE = "INSERT INTO PRODUCT_VEHICLE(ID, COLORS, ENGINE_TYPE, SOUND_TYPE)\n" +
-            "VALUES (?, ?, ?, ?)";
-
-    private final static String INSERT_BEER = "INSERT INTO PRODUCT_BEER(ID, FLAVORS, MADEIN, ALCOHOL_CONTENT)\n" +
-            "VALUES (?, ?, ?, ?);";
-
     private final static String DELETE = "DELETE FROM PRODUCT";
 
     private final static String DELETE_VEHICLES = "DELETE FROM PRODUCT_VEHICLE";
@@ -42,9 +38,17 @@ public class ProductPostgresMultiTableDaoImplTest extends AbstractTestNGSpringCo
         Double price = 1500D;
         int units = 1;
         int i = 1;
+        Product productVehicle = new ProductVehicle();
         for( ; i <= 3 ; i++){
-            ((ProductPostgresMultipleTableDaoImpl) productDao).getJdbcTemplate().update(INSERT, i, price, ("Vehicle " + i), units, ProductCategory.Vehicle.getCategory(), i);
-            ((ProductPostgresMultipleTableDaoImpl) productDao).getJdbcTemplate().update(INSERT_VEHICLE, i, "Blue, Red, Yellow", ("engine" + i), ("soundType" + i));
+            productVehicle.setId((long) i);
+            productVehicle.setPrice(price);
+            productVehicle.setDescription(ProductCategory.Vehicle.getCategory() + i);
+            productVehicle.setUnits(units);
+            productVehicle.setBlock(i);
+            ((ProductVehicle)productVehicle).setColors(Arrays.asList("Blue", "Red", "Yellow"));
+            ((ProductVehicle)productVehicle).setEngineType("engine" + i);
+            ((ProductVehicle)productVehicle).setSoundType("soundType" + i);
+            productDao.insertProduct(productVehicle);
             price += 20;
             units += 1;
         }
@@ -53,9 +57,17 @@ public class ProductPostgresMultiTableDaoImplTest extends AbstractTestNGSpringCo
 
         Double alcoholContent = 0.1D;
         int block = 101;
+        Product productBeer = new ProductBeer();
         for(int j = 1 ; j <= 5 ; j++){
-            ((ProductPostgresMultipleTableDaoImpl) productDao).getJdbcTemplate().update(INSERT, i, price, ("Beer " + i), units, ProductCategory.Beer.getCategory(),block);
-            ((ProductPostgresMultipleTableDaoImpl) productDao).getJdbcTemplate().update(INSERT_BEER, i, "Tomato, Potato, Banana", ("BeerCountry" + i), alcoholContent);
+            productBeer.setId((long) i);
+            productBeer.setPrice(price);
+            productBeer.setDescription(ProductCategory.Beer.getCategory() + i);
+            productBeer.setUnits(units);
+            productBeer.setBlock(block);
+            ((ProductBeer)productBeer).setFlavors(Arrays.asList("Tomato", "Potato", "Banana"));
+            ((ProductBeer)productBeer).setMadeIn("BeerCountry" + i);
+            ((ProductBeer)productBeer).setAlcoholContent(alcoholContent);
+            productDao.insertProduct(productBeer);
             price += 500;
             units += 2;
             alcoholContent += 0.01;
@@ -79,8 +91,8 @@ public class ProductPostgresMultiTableDaoImplTest extends AbstractTestNGSpringCo
 
     @Test(groups = {"requireDeleteAllProducts" , "requireData"})
     public void testRetrieveAllProductsWithPriceLessThan(){
-        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(2501), 6);
-        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(3000), 6);
+        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(2501D), 6);
+        Assert.assertEquals(productDao.retrieveAllProductsWithPriceLessThan(3000D), 6);
     }
 
     @Test(groups = {"requireDeleteAllProducts" , "requireData"})

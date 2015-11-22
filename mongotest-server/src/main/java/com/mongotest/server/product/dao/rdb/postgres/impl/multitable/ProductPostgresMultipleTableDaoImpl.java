@@ -1,6 +1,8 @@
 package com.mongotest.server.product.dao.rdb.postgres.impl.multitable;
 
 import com.mongotest.commons.product.entities.Product;
+import com.mongotest.commons.product.entities.ProductBeer;
+import com.mongotest.commons.product.entities.ProductVehicle;
 import com.mongotest.server.product.dao.rdb.ProductRelationalDao;
 import com.mongotest.commons.product.entities.ProductCategory;
 
@@ -39,6 +41,15 @@ public class ProductPostgresMultipleTableDaoImpl extends ProductRelationalDao {
             "INNER JOIN PRODUCT_BEER PB \n" +
             "ON P.ID = PB.ID) PRODUCTS WHERE CATEGORY = ?";
 
+    private final static String INSERT = "INSERT INTO PRODUCT(ID, PRICE, DESCRIPTION, UNITS, CATEGORY, BLOCK)\n" +
+            "VALUES(?, ?, ?, ?,?, ?)";
+
+    private final static String INSERT_VEHICLE = "INSERT INTO PRODUCT_VEHICLE(ID, COLORS, ENGINE_TYPE, SOUND_TYPE)\n" +
+            "VALUES (?, ?, ?, ?)";
+
+    private final static String INSERT_BEER = "INSERT INTO PRODUCT_BEER(ID, FLAVORS, MADEIN, ALCOHOL_CONTENT)\n" +
+            "VALUES (?, ?, ?, ?);";
+
     @Override
     protected String getAllProductsQuery(){
         return ALL_PRODUCTS_QUERY;
@@ -55,6 +66,12 @@ public class ProductPostgresMultipleTableDaoImpl extends ProductRelationalDao {
     }
 
     public void insertProduct(Product product) {
-
+        if(product instanceof ProductVehicle){
+            getJdbcTemplate().update(INSERT, product.getId(), product.getPrice(), product.getDescription(), product.getUnits(), ProductCategory.Vehicle.getCategory(), product.getBlock());
+            getJdbcTemplate().update(INSERT_VEHICLE, product.getId(), String.join(", ", ((ProductVehicle) product).getColors()), ((ProductVehicle) product).getEngineType(), ((ProductVehicle) product).getSoundType());
+        }else if(product instanceof ProductBeer){
+            getJdbcTemplate().update(INSERT, product.getId(), product.getPrice(), product.getDescription(), product.getUnits(), ProductCategory.Beer.getCategory(), product.getBlock());
+            getJdbcTemplate().update(INSERT_BEER, product.getId(), String.join(", ", ((ProductBeer) product).getFlavors()), ((ProductBeer) product).getMadeIn(), ((ProductBeer) product).getAlcoholContent());
+        }
     }
 }

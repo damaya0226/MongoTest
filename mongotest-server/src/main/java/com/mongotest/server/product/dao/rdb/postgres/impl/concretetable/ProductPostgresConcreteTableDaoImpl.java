@@ -1,6 +1,8 @@
 package com.mongotest.server.product.dao.rdb.postgres.impl.concretetable;
 
 import com.mongotest.commons.product.entities.Product;
+import com.mongotest.commons.product.entities.ProductBeer;
+import com.mongotest.commons.product.entities.ProductVehicle;
 import com.mongotest.server.product.dao.rdb.ProductRelationalDao;
 import com.mongotest.commons.product.entities.ProductCategory;
 
@@ -31,6 +33,12 @@ public class ProductPostgresConcreteTableDaoImpl extends ProductRelationalDao {
 
     private final static String ALL_VEHICLES_QUERY = "SELECT * FROM PRODUCT_VEHICLE";
 
+    private final static String INSERT_VEHICLE = "INSERT INTO PRODUCT_VEHICLE(PRICE, DESCRIPTION, UNITS, COLORS, ENGINE_TYPE, SOUND_TYPE, BLOCK)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    private final static String INSERT_BEER = "INSERT INTO PRODUCT_BEER(PRICE, DESCRIPTION, UNITS, FLAVORS, MADEIN, ALCOHOL_CONTENT, BLOCK)\n" +
+            "VALUES (?, ?, ?, ?, ?, ? , ?)";
+
     protected String getAllProductsQuery(){
         return ALL_PRODUCTS_QUERY;
     }
@@ -50,6 +58,11 @@ public class ProductPostgresConcreteTableDaoImpl extends ProductRelationalDao {
     }
 
     public void insertProduct(Product product) {
+        if(product instanceof ProductVehicle){
+            getJdbcTemplate().update(INSERT_VEHICLE, product.getPrice(), product.getDescription(), product.getUnits(), String.join(", ", ((ProductVehicle) product).getColors()), ((ProductVehicle) product).getEngineType(), ((ProductVehicle) product).getSoundType(), product.getBlock());
+        }else {
+            getJdbcTemplate().update(INSERT_BEER, product.getPrice(), product.getDescription(), product.getUnits(), String.join(", ", ((ProductBeer) product).getFlavors()), ((ProductBeer) product).getMadeIn(), ((ProductBeer) product).getAlcoholContent(), product.getBlock());
+        }
 
     }
 }
