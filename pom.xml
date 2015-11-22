@@ -10,8 +10,9 @@
     <version>0.1.0</version>
 
     <modules>
-        <module>mongotest-core</module>
+        <module>mongotest-server</module>
         <module>mongotest-populator</module>
+        <module>mongotest-commons</module>
     </modules>
 
 

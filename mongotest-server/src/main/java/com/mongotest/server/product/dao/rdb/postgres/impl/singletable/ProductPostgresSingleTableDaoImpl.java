@@ -1,0 +1,36 @@
+package com.mongotest.server.product.dao.rdb.postgres.impl.singletable;
+
+import com.mongotest.commons.product.entities.Product;
+import com.mongotest.server.product.dao.rdb.ProductRelationalDao;
+import com.mongotest.commons.product.entities.ProductCategory;
+
+/**
+ * Created by diegoamaya on 18/11/15.
+ */
+public class ProductPostgresSingleTableDaoImpl extends ProductRelationalDao {
+
+    private final static String ALL_PRODUCTS_QUERY = "SELECT * FROM PRODUCT";
+
+    private final static String ALL_PRODUCTS_LESS_THAN_QUERY = "SELECT * FROM PRODUCT WHERE PRICE < ?";
+
+    private final static String ALL_PRODUCTS_FROM_CATEGORY_QUERY = "SELECT * FROM PRODUCT WHERE CATEGORY = ?";
+
+    @Override
+    protected String getAllProductsQuery(){
+        return ALL_PRODUCTS_QUERY;
+    }
+
+    @Override
+    protected String getAllProductsLessThanQuery() {
+        return ALL_PRODUCTS_LESS_THAN_QUERY;
+    }
+
+    @Override
+    protected String getAllProductsFromCategoryQuery(ProductCategory category) {
+        return ALL_PRODUCTS_FROM_CATEGORY_QUERY.replaceFirst("\\?", "'"+category.getCategory()+"'");
+    }
+
+    public void insertProduct(Product product) {
+
+    }
+}
