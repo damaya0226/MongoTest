@@ -3,6 +3,7 @@ package com.mongotest.commons.product.entities;
 import java.util.List;
 
 /**
+ * Represents the Vehicle Product DTO
  * Created by diegoamaya on 22/11/15.
  */
 public class ProductVehicle extends Product{

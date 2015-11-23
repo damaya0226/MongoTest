@@ -1,6 +1,7 @@
 package com.mongotest.commons.product.entities;
 
 /**
+ * Represents the products categories
  * Created by diegoamaya on 17/11/15.
  */
 public enum ProductCategory {

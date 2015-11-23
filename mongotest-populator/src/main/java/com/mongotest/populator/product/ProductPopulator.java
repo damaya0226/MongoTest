@@ -5,8 +5,8 @@ package com.mongotest.populator.product;
  */
 public interface ProductPopulator {
 
-    Integer NUMBER_OF_BEERS = 10;
-    Integer NUMBER_OF_VEHICLES = 10;
+    Integer NUMBER_OF_BEERS = 100000;
+    Integer NUMBER_OF_VEHICLES = 100000;
 
     void populate();
 }

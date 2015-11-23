@@ -7,6 +7,7 @@ import com.mongotest.commons.product.entities.ProductVehicle;
 import com.mongotest.populator.product.ProductPopulator;
 import com.mongotest.server.product.service.ProductService;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 /**
@@ -19,10 +20,11 @@ public class ProductPopulatorImpl implements ProductPopulator {
     public void populate() {
         Double price = 1500D;
         int units = 1;
+        int i = 1;
         Product productVehicle = new ProductVehicle();
-        for(int i = 1 ; i <= NUMBER_OF_VEHICLES ; i++){
+        for( ; i <= NUMBER_OF_VEHICLES ; i++){
             productVehicle.setId((long) i);
-            productVehicle.setPrice(price);
+            productVehicle.setPrice(new BigDecimal(price ).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue());
             productVehicle.setDescription(ProductCategory.Vehicle.getCategory() + i);
             productVehicle.setUnits(units);
             productVehicle.setBlock(i);
@@ -30,7 +32,7 @@ public class ProductPopulatorImpl implements ProductPopulator {
             ((ProductVehicle)productVehicle).setEngineType("engine" + i);
             ((ProductVehicle)productVehicle).setSoundType("soundType" + i);
             productService.insertProduct(productVehicle);
-            price += 20;
+            price += 2;
             units += 1;
         }
         price = 1500D;
@@ -39,17 +41,17 @@ public class ProductPopulatorImpl implements ProductPopulator {
         Double alcoholContent = 0.1D;
         int block = 101;
         Product productBeer = new ProductBeer();
-        for(int i = 1 ; i <= NUMBER_OF_BEERS ; i++){
+        for( ; i <= NUMBER_OF_BEERS ; i++){
             productBeer.setId((long) i);
-            productBeer.setPrice(price);
+            productBeer.setPrice(new BigDecimal(price ).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue());
             productBeer.setDescription(ProductCategory.Beer.getCategory() + i);
             productBeer.setUnits(units);
             productBeer.setBlock(block);
             ((ProductBeer)productBeer).setFlavors(Arrays.asList("Tomato", "Potato", "Banana"));
             ((ProductBeer)productBeer).setMadeIn("BeerCountry" + i);
-            ((ProductBeer)productBeer).setAlcoholContent(alcoholContent);
+            ((ProductBeer)productBeer).setAlcoholContent(new BigDecimal(alcoholContent ).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
             productService.insertProduct(productBeer);
-            price += 500;
+            price += 5;
             units += 2;
             alcoholContent += 0.01;
             block++;

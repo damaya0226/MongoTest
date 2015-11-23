@@ -1,6 +1,7 @@
 package com.mongotest.commons.product.entities;
 
 /**
+ * Represents the Product DTO
  * Created by diegoamaya on 22/11/15.
  */
 public class Product {
